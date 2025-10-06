@@ -4,8 +4,10 @@ import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/userContext";
 import Input from "../Inputs/Input";
-import AUTH_IMG from '../../assets/react.svg';
+// import AUTH_IMG from '../../assets/react.svg';
 import { validateEmail } from "../../utils/helper";
+import Lottie from 'lottie-react';
+import loginAnimation from '../../assets/Login-Animation.json';
 
 const Login = ({setCurrentPage}) => {
   const [email, setEmail] = useState("");
@@ -108,7 +110,14 @@ const Login = ({setCurrentPage}) => {
       </div>
 
       <div className="hidden md:block">
-        <img src={AUTH_IMG} alt="Login" className="h-[400px]" />
+        {/* <img src={AUTH_IMG} alt="Login" className="h-[400px]" /> */}
+        <Lottie 
+          animationData={loginAnimation} 
+          className="h-[400px] w-[400px]" 
+          loop={true}
+          autoplay={true}
+          style={{ pointerEvents: 'none' }}
+        />
       </div>
     </div>
   )

@@ -4,10 +4,12 @@ import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from "../../utils/apiPaths";
 import { UserContext } from "../../context/userContext";
 import Input from "../Inputs/Input";
-import AUTH_IMG from '../../assets/react.svg';
+// import AUTH_IMG from '../../assets/react.svg';
 import { validateEmail } from "../../utils/helper";
 import ProfilePhotoSelector from "../Inputs/ProfilePhotoSelector";
 import uploadImage from "../../utils/uploadimage";
+import Lottie from 'lottie-react';
+import signupAnimation from '../../assets/Signup-Animation.json';
 
 export const SignUp = ({setCurrentPage}) => {
   const [profilePic, setProfilePic] = useState(null);
@@ -148,7 +150,14 @@ export const SignUp = ({setCurrentPage}) => {
       </div>
 
       <div className="hidden md:block">
-        <img src={AUTH_IMG} alt="Login" className="h-[520px] w-[33vw]" />
+        {/* <img src={AUTH_IMG} alt="Login" className="h-[520px] w-[33vw]" /> */}
+        <Lottie 
+          animationData={signupAnimation} 
+          className="h-[400px] w-[400px]" 
+          loop={true}
+          autoplay={true}
+          style={{ pointerEvents: 'none' }}
+        />
       </div>
     </div>
   )

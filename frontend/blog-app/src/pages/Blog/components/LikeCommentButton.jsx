@@ -1,11 +1,13 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useContext } from "react";
 import { LuMessageCircleDashed } from "react-icons/lu";
 import { PiHandsClapping } from "react-icons/pi";
 import axiosInstance from "../../../utils/axiosInstance";
 import { API_PATHS } from "../../../utils/apiPaths";
+import { UserContext } from "../../../context/userContext";
 import clsx from "clsx";
 
 const LikeCommentButton = ({ postId, likes, comments, userHasLiked = false }) => {
+    const { setOpenAuthForm } = useContext(UserContext);
     const [postLikes, setPostLikes] = useState(likes || 0);
     const [isLikedByUser, setIsLikedByUser] = useState(userHasLiked);
     const [liked, setLiked] = useState(false);
@@ -31,7 +33,7 @@ const LikeCommentButton = ({ postId, likes, comments, userHasLiked = false }) =>
             }
         } catch (error) {
             if (error.response?.status === 401) {
-                console.warn("Please login to like posts");
+                setOpenAuthForm(true);
             } else {
                 console.error("Error:", error.response?.data?.message || error.message);
             }
