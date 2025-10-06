@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import axiosInstance from "../../utils/axiosinstance";
+import axiosInstance from "../utils/axiosinstance";
 import { UserContext } from "../../context/userContext";
 import { API_PATHS } from "../../utils/apiPaths";
 import moment from "moment";

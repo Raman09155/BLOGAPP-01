@@ -1,5 +1,5 @@
 import BlogLayout from "../../components/layouts/BlogLayout/BlogLayout";
-import axiosInstance from "../../utils/axiosinstance";
+import axiosInstance from "../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import BlogPostSummaryCard from "./components/BlogPostSummaryCard";

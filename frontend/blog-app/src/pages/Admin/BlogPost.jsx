@@ -3,7 +3,7 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 
 import { LuGalleryVerticalEnd, LuLoaderCircle, LuPlus } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../utils/axiosinstance";
+import axiosInstance from "../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import toast from "react-hot-toast";
 import moment from "moment";

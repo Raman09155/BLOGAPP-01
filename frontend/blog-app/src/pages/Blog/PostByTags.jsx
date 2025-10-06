@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BlogLayout from "../../components/layouts/BlogLayout/BlogLayout";
 import { useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "../../utils/axiosinstance";
+import axiosInstance from "../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import BlogPostSummaryCard from "./components/BlogPostSummaryCard";
 import moment from "moment";
