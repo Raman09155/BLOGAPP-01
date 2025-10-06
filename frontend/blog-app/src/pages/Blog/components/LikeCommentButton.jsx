@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo, useContext } from "react";
 import { LuMessageCircleDashed } from "react-icons/lu";
 import { PiHandsClapping } from "react-icons/pi";
-import axiosInstance from "../../../utils/axiosInstance";
+import axiosInstance from "../../../utils/axiosinstance";
 import { API_PATHS } from "../../../utils/apiPaths";
 import { UserContext } from "../../../context/userContext";
 import clsx from "clsx";
