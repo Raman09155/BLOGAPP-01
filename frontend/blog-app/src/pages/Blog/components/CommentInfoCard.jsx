@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { UserContext } from "../../../context/userContext";
 import CommentReplyInput from "../../../components/Inputs/CommentReplyInput";
 import { API_PATHS } from "../../../utils/apiPaths";
-import axiosInstance from "../../../utils/axiosInstance";
+import axiosInstance from "../../utils/axiosinstance";
 
 const CommentInfoCard = ({
   commentId,
