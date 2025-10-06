@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../../../utils/axiosInstance";
+import axiosInstance from "../../../utils/axiosinstance";
 import { API_PATHS } from "../../../utils/apiPaths";
 import { LuLoaderCircle } from "react-icons/lu";
 import Input from "../../../components/Inputs/Input";

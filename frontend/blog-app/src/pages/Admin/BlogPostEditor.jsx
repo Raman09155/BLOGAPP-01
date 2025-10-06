@@ -19,7 +19,7 @@ import SkeletonLoader from "../../components/Loader/SkeletonLoader";
 import BlogPostIdeaCard from "../../components/Cards/BlogPostIdeaCard";
 import GenerateBlogPostForm from "./components/GenerateBlogPostForm";
 import Modal from "../../components/Modal";
-import uploadImage from "../../utils/uploadImage";
+import uploadImage from "../../utils/uploadimage";
 import toast from "react-hot-toast";
 import { getToastMessagesByType } from "../../utils/helper";
 import DeleteAlertContent from "../../components/DeleteAlertContent";
