@@ -1,5 +1,5 @@
 import BlogLayout from "../../components/layouts/BlogLayout/BlogLayout";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";

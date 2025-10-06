@@ -3,7 +3,7 @@ import DashboardLayout from '../../components/layouts/DashboardLayout';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import CommentInfoCard from '../../components/Cards/CommentInfoCard';
-import axiosInstance from '../../utils/axiosInstance';
+import axiosInstance from '../../utils/axiosinstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import toast from 'react-hot-toast';
 import Modal from "../../components/Modal"
