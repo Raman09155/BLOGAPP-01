@@ -11,7 +11,7 @@ import {
   LuTrash,
   LuTrash2,
 } from "react-icons/lu";
-import axiosInstance from "../utils/axiosinstance";
+import axiosInstance from "../../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import CoverImageSelector from "../../components/Inputs/CoverImageSelector";
 import TagInput from "../../components/Inputs/TagInput";
