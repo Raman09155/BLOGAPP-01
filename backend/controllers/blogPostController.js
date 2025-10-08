@@ -6,10 +6,11 @@ const mongoose = require("mongoose");
 // @access private (Admin only)
 const createPost = async (req, res) => {
     try {
-        const { title, content, coverImageUrl, tags, isDraft, generatedByAI, metaTitle, metaDescription, metaKeywords } =
+        const { title, content, coverImageUrl, tags, isDraft, generatedByAI, metaTitle, metaDescription, metaKeywords, customUrl, imageAltText, canonicalUrl } =
             req.body;
 
-            const slug = title
+            // Use custom URL if provided, otherwise generate from title
+            const slug = customUrl || title
              .toLowerCase()
              .replace(/ /g, "_")
              .replace(/[^\w-]+/g, "");
@@ -26,6 +27,9 @@ const createPost = async (req, res) => {
                 metaTitle: metaTitle || "",
                 metaDescription: metaDescription || "",
                 metaKeywords: metaKeywords || "",
+                customUrl: customUrl || "",
+                imageAltText: imageAltText || "",
+                canonicalUrl: canonicalUrl || "",
             });
             await newPost.save();
             res.status(201).json(newPost);
@@ -55,7 +59,8 @@ const updatePost = async (req, res) => {
 
         const updatedData = req.body;
         if (updatedData.title) {
-            updatedData.slug = updatedData.title
+            // Use custom URL if provided, otherwise generate from title
+            updatedData.slug = updatedData.customUrl || updatedData.title
             .toLowerCase()
             .replace(/ /g, "_")
             .replace(/[^\w-]+/g, "");

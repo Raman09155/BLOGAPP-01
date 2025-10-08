@@ -8,6 +8,7 @@ const FeaturedBlogPost = ({
   updatedOn,
   authorName,
   authProfileImg,
+  imageAltText,
   onClick,
 }) => {
   return <div 
@@ -17,7 +18,7 @@ const FeaturedBlogPost = ({
         <div className="col-span-6">
             <img
               src={coverImageUrl}
-              alt={title}
+              alt={imageAltText || title}
               className="w-full h-80 object-cover"
             />
         </div>

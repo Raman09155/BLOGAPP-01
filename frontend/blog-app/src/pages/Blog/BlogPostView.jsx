@@ -73,6 +73,21 @@ const BlogPostView = () => {
     updateMetaTag('twitter:title', blogData.metaTitle || blogData.title);
     updateMetaTag('twitter:description', blogData.metaDescription || blogData.title);
     updateMetaTag('twitter:image', blogData.coverImageUrl);
+    
+    // Canonical URL
+    const updateCanonicalTag = (href) => {
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', href);
+    };
+    
+    // Set canonical URL (custom or current page URL)
+    const canonicalUrl = blogData.canonicalUrl || `${window.location.origin}/${blogData.slug}`;
+    updateCanonicalTag(canonicalUrl);
   };
 
   // Get Post Data By slug
@@ -230,7 +245,7 @@ const BlogPostView = () => {
 
               <img
                 src={blogPostData.coverImageUrl || ""}
-                alt={blogPostData.title}
+                alt={blogPostData.imageAltText || blogPostData.title}
                 className="w-full h-96 object-cover mb-6 rounded-lg"
               />
 

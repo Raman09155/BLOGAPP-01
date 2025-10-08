@@ -18,6 +18,9 @@ const BlogPostSchema = new mongoose.Schema(
         metaTitle: { type: String, default: "" },
         metaDescription: { type: String, default: "" },
         metaKeywords: { type: String, default: "" },
+        customUrl: { type: String, default: "" }, // Custom URL slug
+        imageAltText: { type: String, default: "" }, // Alt text for cover image
+        canonicalUrl: { type: String, default: "" }, // Canonical URL
     },
     { timestamps: true }
 );

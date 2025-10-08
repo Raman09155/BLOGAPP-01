@@ -41,6 +41,9 @@ const BlogPostEditor = ({ isEdit }) => {
     metaTitle: "",
     metaDescription: "",
     metaKeywords: "",
+    customUrl: "",
+    imageAltText: "",
+    canonicalUrl: "",
   });
 
   const [postIdeas, setPostIdeas] = useState([]);
@@ -108,8 +111,11 @@ const BlogPostEditor = ({ isEdit }) => {
           metaTitle: metaData.metaTitle || "",
           metaDescription: metaData.metaDescription || "",
           metaKeywords: metaData.metaKeywords || "",
+          customUrl: metaData.customUrl || "",
+          imageAltText: metaData.imageAltText || "",
+          canonicalUrl: metaData.canonicalUrl || "",
         }));
-        toast.success("Meta data generated successfully!");
+        toast.success("All SEO meta data generated successfully!");
       }
     } catch (error) {
       setError("Failed to generate meta data. Please try again.");
@@ -169,6 +175,9 @@ const BlogPostEditor = ({ isEdit }) => {
         metaTitle: postData.metaTitle,
         metaDescription: postData.metaDescription,
         metaKeywords: postData.metaKeywords,
+        customUrl: postData.customUrl,
+        imageAltText: postData.imageAltText,
+        canonicalUrl: postData.canonicalUrl,
       };
 
       const response = isEdit
@@ -217,6 +226,9 @@ const BlogPostEditor = ({ isEdit }) => {
           metaTitle: data.metaTitle || "",
           metaDescription: data.metaDescription || "",
           metaKeywords: data.metaKeywords || "",
+          customUrl: data.customUrl || "",
+          imageAltText: data.imageAltText || "",
+          canonicalUrl: data.canonicalUrl || "",
         }));
       }
     } catch (error) {
@@ -413,6 +425,39 @@ const BlogPostEditor = ({ isEdit }) => {
                     onChange={({ target }) => handleValueChange("metaKeywords", target.value)}
                   />
                   <small className="text-xs text-gray-500">Separate keywords with commas</small>
+                </div>
+                
+                <div>
+                  <label className="text-xs font-medium text-slate-600">Custom URL</label>
+                  <input
+                    placeholder="custom-url-slug (optional)"
+                    className="form-input"
+                    value={postData.customUrl}
+                    onChange={({ target }) => handleValueChange("customUrl", target.value)}
+                  />
+                  <small className="text-xs text-gray-500">Leave empty to auto-generate from title</small>
+                </div>
+                
+                <div>
+                  <label className="text-xs font-medium text-slate-600">Image Alt Text</label>
+                  <input
+                    placeholder="Descriptive text for cover image"
+                    className="form-input"
+                    value={postData.imageAltText}
+                    onChange={({ target }) => handleValueChange("imageAltText", target.value)}
+                  />
+                  <small className="text-xs text-gray-500">Improves accessibility and SEO</small>
+                </div>
+                
+                <div>
+                  <label className="text-xs font-medium text-slate-600">Canonical URL</label>
+                  <input
+                    placeholder="https://example.com/canonical-url (optional)"
+                    className="form-input"
+                    value={postData.canonicalUrl}
+                    onChange={({ target }) => handleValueChange("canonicalUrl", target.value)}
+                  />
+                  <small className="text-xs text-gray-500">Prevents duplicate content issues</small>
                 </div>
               </div>
             </div>

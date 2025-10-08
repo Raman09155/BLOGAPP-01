@@ -149,7 +149,7 @@ const generateMetaData = async (req, res) => {
         return res.status(400).json({ Message: "Missing required fields" });
     }
 
-    const prompt = `Generate SEO meta data for this blog post:
+    const prompt = `Generate complete SEO meta data for this blog post:
 
 Title: ${title}
 Content: ${content.substring(0, 1000)}...
@@ -158,12 +158,18 @@ Generate:
 1. Meta Title (50-60 characters, SEO optimized)
 2. Meta Description (150-160 characters, compelling)
 3. Meta Keywords (5-8 relevant keywords, comma separated)
+4. Custom URL (SEO-friendly slug, lowercase, hyphens, no spaces)
+5. Image Alt Text (descriptive text for cover image, accessibility focused)
+6. Canonical URL (full URL format, use domain placeholder)
 
 Return as JSON:
 {
   "metaTitle": "",
   "metaDescription": "",
-  "metaKeywords": ""
+  "metaKeywords": "",
+  "customUrl": "",
+  "imageAltText": "",
+  "canonicalUrl": ""
 }
 
 Only return valid JSON, no extra text.`;

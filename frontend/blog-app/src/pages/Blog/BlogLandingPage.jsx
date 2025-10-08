@@ -79,6 +79,7 @@ const BlogLandingPage = () => {
             }
             authorName={blogPostList[0].author.name}
             authProfileImg={blogPostList[0].author.profileImageUrl}
+            imageAltText={blogPostList[0].imageAltText}
             onClick={() => handleClick(blogPostList[0])}
           />
         )}
@@ -101,6 +102,7 @@ const BlogLandingPage = () => {
                 }
                 authorName={item.author.name}
                 authProfileImg={item.author.profileImageUrl}
+                imageAltText={item.imageAltText}
                 onClick={() => handleClick(item)}
               />
            ))}

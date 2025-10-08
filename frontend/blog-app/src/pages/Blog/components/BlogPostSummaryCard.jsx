@@ -9,6 +9,7 @@ const BlogPostSummaryCard = ({
   updatedOn,
   authorName,
   authProfileImg,
+  imageAltText,
   onClick,
 }) => {
     const navigate = useNavigate()
@@ -18,7 +19,7 @@ const BlogPostSummaryCard = ({
     >
         <img
           src={coverImageUrl}
-          alt={title}
+          alt={imageAltText || title}
           className="w-full h-64 object-cover"
         />
 
