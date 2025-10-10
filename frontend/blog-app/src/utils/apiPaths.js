@@ -1,4 +1,4 @@
-export const BASE_URL = "https://blogapp-backend-3pb3.onrender.com";
+export const BASE_URL = "http://localhost:8000";
 
 export const API_PATHS = {
   AUTH: {
@@ -9,6 +9,13 @@ export const API_PATHS = {
 
   IMAGE: {
     UPLOAD_IMAGE: "/api/auth/upload-image", // Upload profile picture
+  },
+
+  CONTENT_IMAGES: {
+    UPLOAD: "/api/content-images/upload", // Upload content image
+    GET_ALL: "/api/content-images", // Get all content images
+    UPDATE: (id) => `/api/content-images/${id}`, // Update content image name
+    DELETE: (id) => `/api/content-images/${id}`, // Delete content image
   },
 
   DASHBOARD: {

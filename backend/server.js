@@ -8,7 +8,8 @@ const authRoutes = require("./routes/authRoutes");
 const blogPostRoutes = require("./routes/blogPostRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
-const aiRoutes = require("./routes/aiRoutes"); 
+const aiRoutes = require("./routes/aiRoutes");
+const contentImageRoutes = require("./routes/contentImageRoutes"); 
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/posts", blogPostRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/dashboard-summary", dashboardRoutes);
+app.use("/api/content-images", contentImageRoutes);
 
 app.use("/api/ai", aiRoutes);
 

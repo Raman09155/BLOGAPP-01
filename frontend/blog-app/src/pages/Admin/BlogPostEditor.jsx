@@ -23,6 +23,7 @@ import uploadImage from "../../utils/uploadimage";
 import toast from "react-hot-toast";
 import { getToastMessagesByType } from "../../utils/helper";
 import DeleteAlertContent from "../../components/DeleteAlertContent";
+import ContentImageUploader from "../../components/ContentImageUploader";
 
 const BlogPostEditor = ({ isEdit }) => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const BlogPostEditor = ({ isEdit }) => {
   });
 
   const [postIdeas, setPostIdeas] = useState([]);
+  const [contentImages, setContentImages] = useState([]);
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -83,6 +85,16 @@ const BlogPostEditor = ({ isEdit }) => {
       console.log("Something went wrong. Please try again.", error);
     } finally {
       setIdeaLoading(false);
+    }
+  };
+
+  // Fetch Content Images
+  const fetchContentImages = async () => {
+    try {
+      const response = await axiosInstance.get(API_PATHS.CONTENT_IMAGES.GET_ALL);
+      setContentImages(response.data);
+    } catch (error) {
+      console.error("Error fetching content images:", error);
     }
   };
 
@@ -255,6 +267,7 @@ const BlogPostEditor = ({ isEdit }) => {
     } else {
       generatePostIdeas();
     }
+    fetchContentImages();
 
     return () => {};
   }, []);
@@ -279,6 +292,11 @@ const BlogPostEditor = ({ isEdit }) => {
                     <span className="hidden md:block">Delete</span>
                   </button>
                 )}
+
+                <ContentImageUploader 
+                  images={contentImages} 
+                  setImages={setContentImages} 
+                />
 
                 <button
                   className="flex items-center gap-2.5 text-[13px] font-medium text-sky-500 bg-sky-50/60 rounded px-1.5 md:px-3 py-1 md:py-[3px] border border-sky-100 hover:border-sky-400 cursor-pointer hover:scale-[1.02] transition-all"
