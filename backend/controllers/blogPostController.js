@@ -1,5 +1,9 @@
 const BlogPost = require("../models/BlogPost");
+const Comment = require("../models/Comment");
+const ContentImage = require("../models/ContentImage");
 const mongoose = require("mongoose");
+const { getAssociatedImages, getUnusedImages } = require('../utils/imageUtils');
+const { deleteFiles } = require('../utils/fileUtils');
 
 // @desc Create a New blog post
 // @route POST /api/posts
@@ -14,6 +18,15 @@ const createPost = async (req, res) => {
              .toLowerCase()
              .replace(/ /g, "_")
              .replace(/[^\w-]+/g, "");
+            
+            // Get associated images for tracking with error handling
+            let associatedImages = [];
+            try {
+                associatedImages = getAssociatedImages(coverImageUrl, content);
+            } catch (imageError) {
+                console.error('Error tracking images for new post:', imageError);
+                // Continue without image tracking rather than failing the post creation
+            }
             
             const newPost = new BlogPost({
                 title,
@@ -30,6 +43,7 @@ const createPost = async (req, res) => {
                 customUrl: customUrl || "",
                 imageAltText: imageAltText || "",
                 canonicalUrl: canonicalUrl || "",
+                associatedImages,
             });
             await newPost.save();
             res.status(201).json(newPost);
@@ -66,6 +80,18 @@ const updatePost = async (req, res) => {
             .replace(/[^\w-]+/g, "");
         }
         
+        // Update associated images if content or cover image changed with error handling
+        if (updatedData.content || updatedData.coverImageUrl) {
+            try {
+                const coverImageUrl = updatedData.coverImageUrl || post.coverImageUrl;
+                const content = updatedData.content || post.content;
+                updatedData.associatedImages = getAssociatedImages(coverImageUrl, content);
+            } catch (imageError) {
+                console.error('Error updating associated images:', imageError);
+                // Continue with update without modifying associatedImages
+            }
+        }
+        
         const updatedPost = await BlogPost.findByIdAndUpdate(
             req.params.id,
             updatedData,
@@ -88,8 +114,83 @@ const deletePost = async (req, res) => {
         const post = await BlogPost.findById(req.params.id);
         if (!post) return res.status(404).json({ message: "Post not found" });
 
+        // Delete associated comments with error handling
+        let commentsDeleted = 0;
+        try {
+            const deleteCommentsResult = await Comment.deleteMany({ post: req.params.id });
+            commentsDeleted = deleteCommentsResult.deletedCount || 0;
+            console.log(`Deleted ${commentsDeleted} comments for post: ${post.title}`);
+        } catch (commentError) {
+            console.error('Error deleting comments:', commentError);
+            // Continue with post deletion even if comment deletion fails
+        }
+
+        // Check which images are safe to delete (not used in other posts)
+        let unusedImages = [];
+        let contentImagesDeleted = 0;
+        let fileDeleteResult = { success: true, errors: [] };
+        
+        if (post.associatedImages && post.associatedImages.length > 0) {
+            try {
+                // Get images that are not used in any other post
+                unusedImages = await getUnusedImages(post.associatedImages, post._id, BlogPost);
+                console.log(`Found ${unusedImages.length} unused images out of ${post.associatedImages.length} total images`);
+                
+                // Delete ContentImage database entries only for unused images
+                if (unusedImages.length > 0) {
+                    try {
+                        const deleteContentImagesResult = await ContentImage.deleteMany({ 
+                            filename: { $in: unusedImages } 
+                        });
+                        contentImagesDeleted = deleteContentImagesResult.deletedCount || 0;
+                        console.log(`Deleted ${contentImagesDeleted} ContentImage entries for unused images`);
+                    } catch (contentImageError) {
+                        console.error('Error deleting ContentImage entries:', contentImageError);
+                    }
+                }
+                
+                // Delete physical files only for unused images
+                if (unusedImages.length > 0) {
+                    try {
+                        fileDeleteResult = await deleteFiles(unusedImages);
+                        
+                        if (!fileDeleteResult.success) {
+                            console.error('Some unused files could not be deleted:', fileDeleteResult.errors);
+                        }
+                    } catch (fileError) {
+                        console.error('Error during unused file cleanup:', fileError);
+                    }
+                }
+                
+            } catch (imageCheckError) {
+                console.error('Error checking image usage:', imageCheckError);
+                // If we can't check usage, don't delete any images (safer approach)
+            }
+        }
+
+        // Delete the post from database
         await post.deleteOne();
-        res.json({ message: "Post deleted" });
+        
+        // Prepare response with cleanup information
+        const response = { message: "Post deleted" };
+        if (commentsDeleted > 0) {
+            response.commentsDeleted = commentsDeleted;
+        }
+        if (post.associatedImages && post.associatedImages.length > 0) {
+            response.totalImages = post.associatedImages.length;
+            response.imagesKept = post.associatedImages.length - unusedImages.length;
+        }
+        if (contentImagesDeleted > 0) {
+            response.contentImagesDeleted = contentImagesDeleted;
+        }
+        if (fileDeleteResult.deletedFiles && fileDeleteResult.deletedFiles.length > 0) {
+            response.filesDeleted = fileDeleteResult.deletedFiles.length;
+        }
+        if (fileDeleteResult.errors && fileDeleteResult.errors.length > 0) {
+            response.fileCleanupWarnings = fileDeleteResult.errors.length;
+        }
+        
+        res.json(response);
 
     } catch (err) {
         res 

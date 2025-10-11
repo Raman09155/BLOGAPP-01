@@ -21,6 +21,7 @@ const BlogPostSchema = new mongoose.Schema(
         customUrl: { type: String, default: "" }, // Custom URL slug
         imageAltText: { type: String, default: "" }, // Alt text for cover image
         canonicalUrl: { type: String, default: "" }, // Canonical URL
+        associatedImages: [{ type: String }], // Array of image filenames used in this post
     },
     { timestamps: true }
 );
