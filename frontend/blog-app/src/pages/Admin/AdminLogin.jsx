@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import LOGO from "../../assets/react.svg";
+import LOGO from "../../assets/air-logo.png";
 import SignUp from "../../components/Auth/SignUp";
 import Login from "../../components/Auth/Login";
 
